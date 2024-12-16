@@ -2,7 +2,7 @@ import React from 'react'
 // components
 import Button from './Button';
 // fonts
-import { Fugaz_One } from "next/font/google";
+import { Fugaz_One } from 'next/font/google';
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] })
 

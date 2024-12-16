@@ -1,5 +1,8 @@
 import React from 'react';
-// TODO figure out why Google font is not importing correctly
+// fonts
+import { Fugaz_One } from 'next/font/google';
+
+const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'], display: "swap" })
 
 export default function Button(props) {
     const { text, darkStyle } = props;
@@ -11,7 +14,7 @@ export default function Button(props) {
                     : 'text-[#fd79a8] border-[#e056fd] hover:text-[#e056fd]'
                 }`}
         >
-            <p style={{ fontFamily: "'Fugaz One', cursive" }} className='px-6 sm:px-10 whitespace-nowrap py-2 sm:py-3'>
+            <p className={`px-6 sm:px-10 whitespace-nowrap py-2 sm:py-3 ${fugaz.className}`}>
                 {text}
             </p>
         </button>
