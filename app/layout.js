@@ -18,16 +18,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	const header = (
 		<header className='p-4 sm:p-8 flex items-center justify-between gap-4'>
-			<h1 className={`text-base sm:text-lg textGradient ${fugaz.className}`}>Mood Map</h1>
-			<div className='flex items-center justify-between'>
+			<a className={`text-base sm:text-lg textGradient ${fugaz.className}`} href='/'>Mood Map</a>
+			<a className='flex items-center justify-between' href='/dashboard'>
 				TODO - CTA button || stats
-			</div>
+			</a>
 		</header>
 	)
 
 	const footer = (
 		<footer className='p-4 sm:p-8 text-center'>
-			<p className={`text-neonPink ${fugaz.className}`}>©Copyright {new Date().getFullYear()}, Lost Boys Technologies</p>
+			<p className={`text-majesticPurple ${fugaz.className}`}>
+				©Copyright {new Date().getFullYear()}, Lost Boys Technologies
+			</p>
 		</footer>
 	)
 

@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function DashboardPage() {
     // TODO add firebase authentication
-    const isAuthenticated = false;
+    const isAuthenticated = true;
     let children = (
         <Login />
     )

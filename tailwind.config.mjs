@@ -10,7 +10,8 @@ export default {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
-        neonPink: '#E056FD',
+        majesticPurple: '#E056FD',
+        neonPink: '#FD79A8',
       },
     },
   },

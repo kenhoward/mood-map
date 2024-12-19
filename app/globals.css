@@ -5,7 +5,7 @@
 /* theme color options */
 :root {
 	--background: #ffffff;
-	--foreground: #171717;
+	--foreground: #2d3436;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,8 +22,6 @@ body {
 
 /* global styles */
 .textGradient {
-	/* background: -webkit-linear-gradient(#FF00FF, #00FFFF);
-	background: linear-gradient(#FF00FF, #00FFFF); */
 	background: -webkit-linear-gradient(#eb4d4b, #e056fd);
 	background: linear-gradient(#eb4d4b, #e056fd);
 	-webkit-background-clip: text;
