@@ -11,6 +11,8 @@ export default {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         majesticPurple: '#E056FD',
+        lightPurple: '#E4C1E8',
+        darkPurple: '#8E44AD',
         neonPink: '#FD79A8',
       },
     },
