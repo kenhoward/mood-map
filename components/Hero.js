@@ -1,6 +1,7 @@
 import React from 'react'
 // components
 import Button from './Button';
+import Calendar from './Calendar';
 // fonts
 import { Fugaz_One } from 'next/font/google';
 
@@ -15,6 +16,7 @@ export default function Hero() {
                 <Button text='Sign Up' />
                 <Button text='Log In' darkStyle />
             </div>
+            <Calendar demo />
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import { Fugaz_One, Open_Sans } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const opensans = Open_Sans({
 	subsets: ["latin"],
@@ -18,10 +19,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	const header = (
 		<header className='p-4 sm:p-8 flex items-center justify-between gap-4'>
-			<a className={`text-base sm:text-lg textGradient ${fugaz.className}`} href='/'>Mood Map</a>
-			<a className='flex items-center justify-between' href='/dashboard'>
+			<Link href='/' className={`text-base sm:text-lg textGradient ${fugaz.className}`}>Mood Map</Link>
+			<Link href='/dashboard' className='flex items-center justify-between'>
 				TODO - CTA button || stats
-			</a>
+			</Link>
 		</header>
 	)
 
