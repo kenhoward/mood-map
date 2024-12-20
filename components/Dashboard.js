@@ -1,4 +1,6 @@
 import React from 'react'
+// components
+import Calendar from './Calendar';
 // fonts
 import { Fugaz_One } from 'next/font/google';
 
@@ -55,7 +57,7 @@ export default function Dashboard() {
             <div className='grid grid-cols-2 sm:grid-cols-5 gap-4'>
                 {renderMoods()}
             </div>
-
+            <Calendar />
         </div>
     )
 }
