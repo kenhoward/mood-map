@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
 			<body
-				className={`w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col antialiased ${opensans.className}}`}
+				className={`w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col antialiased bg-[var(--background)] ${opensans.className}`}
 			>
 				{header}
 				{children}

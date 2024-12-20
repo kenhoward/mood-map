@@ -16,8 +16,8 @@
 }
 
 body {
-	color: var(--foreground) !important;
-	background: var(--background) !important;
+	color: var(--foreground);
+	background: var(--background);
 }
 
 /* global styles */
