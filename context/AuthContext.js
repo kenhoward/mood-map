@@ -1,7 +1,8 @@
 'use client'
 import { auth } from '@/firebase';
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/firebase';
 import React, { useContext, useState, useEffect } from 'react';
 
 const AuthContext = React.createContext();
@@ -13,22 +14,22 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
-    const [userDataObj, setUserDataObj] = useState();
+    const [userDataObj, setUserDataObj] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // auth handlers
     function signup(email, password) {
-        return createUserWithEmailAndPassword(auth, email, password);
+        return createUserWithEmailAndPassword(auth, email, password)
     }
 
     function login(email, password) {
-        return signInWithEmailAndPassword(auth, email, password);
+        return signInWithEmailAndPassword(auth, email, password)
     }
 
     function logout() {
-        setUserDataObj({});
-        setCurrentUser(null);
-        return signOut(auth);
+        setUserDataObj(null)
+        setCurrentUser(null)
+        return signOut(auth)
     }
 
     useEffect(() => {
@@ -57,8 +58,8 @@ export function AuthProvider({ children }) {
                     console.log('\n firebase Data - REMOVE ME LATER', firebaseData, '\n');
                 }
                 setUserDataObj(firebaseData);
-            } catch {
-                console.log(`Error with Auth State Changed, ${error.message}`)
+            } catch (err) {
+                console.log(`Error with Auth State Changed, ${err.message}`)
             } finally {
                 setLoading(false);
             }
@@ -69,6 +70,7 @@ export function AuthProvider({ children }) {
     const value = {
         currentUser,
         userDataObj,
+        setUserDataObj,
         signup,
         login,
         logout,

@@ -1,19 +1,21 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 // utils
 import { gradients, baseRating, demoData, months, dayList } from '@/utils/calendar';
 
-const now = new Date();
-
 export default function Calendar(props) {
-    const { demo } = props;
+    const { demo, data, handleMood } = props;
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const [selectedMonth, setSelectedMonth] = useState(Object.keys(months)[currentMonth]);
+    const [selectedYear, setSelectedYear] = useState(now.getFullYear());
 
-    // temporary data
-    const year = 2024;
-    const month = 'July';
+    const numericMonth = Object.keys(months).indexOf(selectedMonth);
+    const currentMonthsData = data?.[selectedYear]?.[numericMonth] || {};
 
-    const monthNow = new Date(year, Object.keys(months).indexOf(month), 1);
+    const monthNow = new Date(selectedYear, Object.keys(months).indexOf(selectedMonth), 1);
     const firstDayOfMonth = monthNow.getDay();
-    const daysInMonth = new Date(year, Object.keys(months).indexOf(month) + 1, 0).getDate();
+    const daysInMonth = new Date(selectedYear, Object.keys(months).indexOf(selectedMonth) + 1, 0).getDate();
 
     const daysToDisplay = firstDayOfMonth + daysInMonth;
     const numRows = Math.floor(daysToDisplay / 7) + (daysToDisplay % 7 ? 1 : 0);
@@ -36,8 +38,8 @@ export default function Calendar(props) {
 
                         const color = demo
                             ? gradients.pink[baseRating[dayIndex]]
-                            : dayIndex in demoData
-                                ? gradients.pink[demoData[dayIndex]]
+                            : dayIndex in currentMonthsData
+                                ? gradients.pink[currentMonthsData[dayIndex]]
                                 : 'transparent';
 
                         return (

@@ -1,4 +1,8 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
+import { useAuth } from '@/context/AuthContext';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '@/firebase';
 // components
 import Calendar from './Calendar';
 // fonts
@@ -7,6 +11,43 @@ import { Fugaz_One } from 'next/font/google';
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'], display: "swap" })
 
 export default function Dashboard() {
+    const { currentUser, userDataObj, setUserDataObj } = useAuth();
+    const [data, setData] = useState({});
+
+    const handleMood = async (mood) => {
+        const now = new Date();
+        const day = now.getDate();
+        const month = now.getMonth();
+        const year = now.getFullYear();
+        try {
+            const newData = { ...userDataObj }
+            newData[year] ??= {};
+            newData[year][month] ??= {};
+            newData[year][month][day] ??= {};
+
+            newData[year][month][day] = mood;
+
+            // updates current state
+            setData(newData);
+            // updates global state
+            setUserDataObj(newData);
+            //updates firebase
+            const docRef = doc(db, 'users', currentUser.uid);
+            const res = await setDoc(docRef, {
+                [year]: {
+                    [month]: {
+                        [day]: mood
+                    }
+                }
+                // This third argument will merge what's currently in firebase
+            }, { merge: true});
+        } catch (err) {
+            console.error(`Failed to set mood: ${err}`);
+        }
+    }
+
+    const handleMoodClick = (index) => () => handleMood(index + 1);
+
     // temporary for UI sake
     const statuses = {
         num_days: 14,
@@ -21,6 +62,14 @@ export default function Dashboard() {
         'Good': '🙂',
         'Excellent!': '😁',
     }
+
+    useEffect(() => {
+        if (!currentUser || !userDataObj) return;
+
+        // checks for user data and then will update state accordingly
+        // reads the data from firebase
+        setData(userDataObj);
+    }, [currentUser, userDataObj])
 
     const renderStatuses = () =>
         Object.keys(statuses).map((status, index) => (
@@ -37,6 +86,7 @@ export default function Dashboard() {
     const renderMoods = () =>
         Object.keys(moods).map((mood, index) => (
             <button
+                onClick={handleMoodClick(index)}
                 key={`mood-${index}`}
                 className={`p-4 rounded-lg purpleShadow duration-200 bg-lightPurple hover:bg-darkPurple ${index === 4 ? 'col-span-2 sm:col-span-1' : ''
                     }`}
@@ -57,7 +107,7 @@ export default function Dashboard() {
             <div className='grid grid-cols-2 sm:grid-cols-5 gap-4'>
                 {renderMoods()}
             </div>
-            <Calendar />
+            <Calendar data={data} handleMood={handleMood} />
         </div>
     )
 }
