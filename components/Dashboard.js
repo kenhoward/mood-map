@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '@/context/AuthContext';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '@/firebase';
@@ -13,9 +13,49 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'], display: "swap" }
 export default function Dashboard() {
     const { currentUser, userDataObj, setUserDataObj } = useAuth();
     const [data, setData] = useState({});
+    const now = new Date();
+
+    const calculateTimeRemaining = () => {
+        const hoursLeft = 23 - now.getHours();
+        const minutesLeft = 60 - now.getMinutes();
+        return `${hoursLeft}h ${minutesLeft}m`;
+    };
+
+    const computedStatuses = useMemo(() => {
+        let totalDays = 0;
+        let totalMoods = 0;
+
+        Object.values(data).forEach(year =>
+            Object.values(year).forEach(month =>
+                Object.values(month).forEach(daysMood => {
+                    totalDays++;
+                    totalMoods += daysMood;
+                })
+            )
+        );
+
+        const averageMood = totalDays ? totalMoods / totalDays : 0;
+
+        return {
+            days_logged: totalDays,
+            average_mood: Number(averageMood.toFixed(2)),
+            time_remaining: calculateTimeRemaining(),
+        };
+    }, [data]);
+
+    const renderStatuses = () =>
+        Object.entries(computedStatuses).map(([key, value], index) => (
+            <div key={`status-${index}`} className="p-4 flex flex-col gap-1 sm:gap-2">
+                <p className="font-medium capitalize text-xs sm:text-sm truncate">
+                    {key.replaceAll('_', ' ')}
+                </p>
+                <p className={`text-base sm:text-lg truncate ${fugaz.className}`}>
+                    {value}
+                </p>
+            </div>
+        ));
 
     const handleMood = async (mood) => {
-        const now = new Date();
         const day = now.getDate();
         const month = now.getMonth();
         const year = now.getFullYear();
@@ -48,13 +88,6 @@ export default function Dashboard() {
 
     const handleMoodClick = (index) => () => handleMood(index + 1);
 
-    // temporary for UI sake
-    const statuses = {
-        num_days: 14,
-        time_remaining: '13:14:26',
-        date: (new Date()).toDateString()
-    }
-
     const moods = {
         '&*@#$': '🫠',
         'Sad': '😢',
@@ -70,18 +103,6 @@ export default function Dashboard() {
         // reads the data from firebase
         setData(userDataObj);
     }, [currentUser, userDataObj])
-
-    const renderStatuses = () =>
-        Object.keys(statuses).map((status, index) => (
-            <div key={`status-${index}`} className="p-4 flex flex-col gap-1 sm:gap-2">
-                <p className="font-medium uppercase text-xs sm:text-sm truncate">
-                    {status.replaceAll('_', ' ')}
-                </p>
-                <p className={`text-base sm:text-lg truncate ${fugaz.className}`}>
-                    {statuses[status]}
-                </p>
-            </div>
-        ));
 
     const renderMoods = () =>
         Object.keys(moods).map((mood, index) => (
