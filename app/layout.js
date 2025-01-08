@@ -1,8 +1,10 @@
 import { Fugaz_One, Open_Sans } from "next/font/google";
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
+// components
 import Link from "next/link";
 import Head from "./head";
+import Logout from "@/components/Logout";
 
 const opensans = Open_Sans({
 	subsets: ["latin"],
@@ -22,6 +24,7 @@ export default function RootLayout({ children }) {
 	const header = (
 		<header className='p-4 sm:p-8 flex items-center justify-between gap-4'>
 			<Link href='/' className={`text-base sm:text-lg textGradient ${fugaz.className}`}>Mood Map</Link>
+			<Logout />
 		</header>
 	)
 
