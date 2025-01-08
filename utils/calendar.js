@@ -1,17 +1,6 @@
-export const months = {
-    January: 'Jan',
-    February: 'Feb',
-    March: 'Mar',
-    April: 'Apr',
-    May: 'May',
-    June: 'Jun',
-    July: 'Jul',
-    August: 'Aug',
-    September: 'Sep',
-    October: 'Oct',
-    November: 'Nov',
-    December: 'Dec',
-};
+export const months = { 'January': 'Jan', 'February': 'Feb', 'March': 'Mar', 'April': 'Apr', 'May': 'May', 'June': 'Jun', 'July': 'Jul', 'August': 'Aug', 'September': 'Sept', 'October': 'Oct', 'November': 'Nov', 'December': 'Dec' }
+
+export const monthsArr = Object.keys(months);
 
 export const dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
