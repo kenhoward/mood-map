@@ -1,6 +1,10 @@
 import { Fugaz_One, Open_Sans } from "next/font/google";
+import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
+// components
 import Link from "next/link";
+import Head from "./head";
+import Logout from "@/components/Logout";
 
 const opensans = Open_Sans({
 	subsets: ["latin"],
@@ -20,9 +24,7 @@ export default function RootLayout({ children }) {
 	const header = (
 		<header className='p-4 sm:p-8 flex items-center justify-between gap-4'>
 			<Link href='/' className={`text-base sm:text-lg textGradient ${fugaz.className}`}>Mood Map</Link>
-			<Link href='/dashboard' className='flex items-center justify-between'>
-				TODO - CTA button || stats
-			</Link>
+			<Logout />
 		</header>
 	)
 
@@ -36,13 +38,16 @@ export default function RootLayout({ children }) {
 
 	return (
 		<html lang="en">
-			<body
-				className={`w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col antialiased bg-[var(--background)] ${opensans.className}`}
-			>
-				{header}
-				{children}
-				{footer}
-			</body>
+			<Head />
+			<AuthProvider>
+				<body
+					className={`w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col antialiased bg-[var(--background)] ${opensans.className}`}
+				>
+					{header}
+					{children}
+					{footer}
+				</body>
+			</AuthProvider>
 		</html>
 	);
 }
