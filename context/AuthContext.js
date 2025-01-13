@@ -54,8 +54,6 @@ export function AuthProvider({ children }) {
                     console.info('Found User Data');
                     // grabs all the data
                     firebaseData = docSnap.data();
-                    // TODO - DON'T FORGET TO REMOVE
-                    console.log('\n firebase Data - REMOVE ME LATER', firebaseData, '\n');
                 }
                 setUserDataObj(firebaseData);
             } catch (err) {

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Button from './Button';
 import { Fugaz_One } from 'next/font/google';
+import Swal from 'sweetalert2';
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'], display: "swap" });
 
@@ -17,11 +18,19 @@ export default function Login() {
 
     const handleSubmit = async () => {
         if (!email || !password || password.length < 6) {
-            alert('Please fill in all fields and ensure the password is at least 6 characters long.');
+            Swal.fire({
+                title: 'Invalid Input',
+                text: 'Please enter all fields and ensure that the password is at least 6 characters long!',
+                confirmButtonColor: '#8E44AD',
+            });
             return;
         }
         if (!isValidEmail(email)) {
-            alert('Please enter a valid email address.');
+            Swal.fire({
+                title: 'Invalid Email',
+                text: 'Please enter a valid email address!',
+                confirmButtonColor: '#8E44AD',
+            });
             return;
         }
 
@@ -38,7 +47,17 @@ export default function Login() {
         } catch (err) {
             console.error(`Error on submit - Firebase Error Code: ${err.code}`);
             console.error(`Firebase Error Message: ${err.message}`);
-            alert(`Authentication Error: ${err.message}`);
+            Swal.fire({
+                title: 'Authentication Error',
+                text: 'Email and/or password is incorrect',
+                imageUrl: 'https://media.giphy.com/media/wSSooF0fJM97W/giphy.gif?cid=790b761188u4kk06x816micvgzzqoi6ccx7ubp77f43ay6za&ep=v1_gifs_search&rid=giphy.gif&ct=g',
+                imageWidth: 500,
+                imageHeight: 413,
+                padding: '1em',
+                confirmButtonColor: '#8E44AD',
+                background: '#FAFAFA',
+                imageAlt: "Access Denied brought to you by Dennis Nedry",
+            });
         } finally {
             setAuthenticating(false);
         }
@@ -46,6 +65,7 @@ export default function Login() {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
+            e.preventDefault();
             handleSubmit();
         }
     };
